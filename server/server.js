@@ -1,33 +1,32 @@
 const express = require('express');
-//const cors = require('cors');
-
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 const app = express();
-//app.use(cors("http://localhost:3000/", "https://tsamplees.netlify.app/"));
+const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(express.static(path.join(__dirname, '../client')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// In-memory storage (Not recommended for production)
-let storedText = '';
+const FILE_PATH = path.join(__dirname, 'data.txt');
 
-// Save text to memory
+// Save text to file
 app.post('/api/save', (req, res) => {
     const text = req.body.text;
-    if (!text) {
-        return res.status(400).json({ error: 'Text is required' });
-    }
-    storedText = text; 
-    res.json({ message: 'Text saved successfully!' });
+    fs.writeFileSync(FILE_PATH, text, 'utf8');
+    res.send({ message: 'Text saved successfully!' });
 });
 
-// Download the text as a file
+// Download the file
 app.get('/api/download', (req, res) => {
-    if (!storedText) {
-        return res.status(404).json({ error: 'No text available for download' });
-    }
-    res.setHeader('Content-Disposition', 'attachment; filename="data.txt"');
-    res.send(storedText);
+    res.download(FILE_PATH, 'data.txt');
 });
 
-// Export as a serverless function
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+
 module.exports = app;
 
