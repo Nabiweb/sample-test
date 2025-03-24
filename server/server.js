@@ -1,27 +1,26 @@
 const express = require('express');
-const cors = require('cors'); // Add this line
-const fs = require('fs');
-const path = require('path');
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors()); // Enable CORS for all routes
-app.use(express.static(path.join(__dirname, '../client')));
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const FILE_PATH = path.join(__dirname, 'data.txt');
+// In-memory storage for text
+let storedText = '';
 
-// Save text to file
+// Save text to memory
 app.post('/api/save', (req, res) => {
     const text = req.body.text;
-    fs.writeFileSync(FILE_PATH, text, 'utf8');
+    storedText = text; // Save text in memory
     res.send({ message: 'Text saved successfully!' });
 });
 
-// Download the file
+// Download the text as a file
 app.get('/api/download', (req, res) => {
-    res.download(FILE_PATH, 'data.txt');
+    res.setHeader('Content-Disposition', 'attachment; filename="data.txt"');
+    res.send(storedText); // Send the stored text as the file content
 });
 
 app.listen(PORT, () => {
