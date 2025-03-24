@@ -16,13 +16,16 @@ const FILE_PATH = path.join(__dirname, 'data.txt');
 app.post('/api/save', (req, res) => {
     try {
         const text = req.body.text;
+        console.log('Received text:', text); // Log the incoming text
         if (!text) {
+            console.warn('No text provided in request body');
             return res.status(400).send({ message: 'Text is required' });
         }
         fs.writeFileSync(FILE_PATH, text, 'utf8');
+        console.log('Text saved successfully to', FILE_PATH);
         res.send({ message: 'Text saved successfully!' });
     } catch (error) {
-        console.error('Error saving text:', error);
+        console.error('Error saving text:', error.message);
         res.status(500).send({ message: 'Internal Server Error' });
     }
 });
