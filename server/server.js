@@ -14,9 +14,17 @@ const FILE_PATH = path.join(__dirname, 'data.txt');
 
 // Save text to file
 app.post('/api/save', (req, res) => {
-    const text = req.body.text;
-    fs.writeFileSync(FILE_PATH, text, 'utf8');
-    res.send({ message: 'Text saved successfully!' });
+    try {
+        const text = req.body.text;
+        if (!text) {
+            return res.status(400).send({ message: 'Text is required' });
+        }
+        fs.writeFileSync(FILE_PATH, text, 'utf8');
+        res.send({ message: 'Text saved successfully!' });
+    } catch (error) {
+        console.error('Error saving text:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
 });
 
 // Download the file
