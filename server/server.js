@@ -3,7 +3,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../client')));
@@ -15,7 +15,7 @@ const FILE_PATH = path.join(__dirname, 'data.txt');
 // Save text to file
 app.post('/api/save', (req, res) => {
     try {
-        const text = req.body.text;
+        const text = req.body.text ;
         console.log('Received text:', text); // Log the incoming text
         if (!text) {
             console.warn('No text provided in request body');
