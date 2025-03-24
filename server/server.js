@@ -13,7 +13,7 @@ app.use(express.json());
 const FILE_PATH = path.join(__dirname, 'data.txt');
 
 // Save text to file
-app.post('/api/save', (req, res) => {
+app.post('https://test5-omega-ten.vercel.app/api/save', (req, res) => {
     try {
         const text = req.body.text;
         if (!text) {
