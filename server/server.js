@@ -5,7 +5,7 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors("https://test5-omega-ten.vercel.app/","http://localhost:3000/"));
+app.use(cors());
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

@@ -23,7 +23,7 @@
     <script>
         function saveText() {
             const text = document.getElementById('textInput').value;
-            fetch('/api/save', {
+            fetch('/api/save', { // Use the full server URL
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text })
@@ -32,7 +32,7 @@
         }
 
         function downloadFile() {
-            window.location.href = '/api/download';
+            window.location.href = '/api/download'; // Use the full server URL
         }
     </script>
 
