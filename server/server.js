@@ -5,7 +5,7 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors("https://test5-omega-ten.vercel.app/","http://localhost:3000/"));
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -13,7 +13,7 @@ app.use(express.json());
 const FILE_PATH = path.join(__dirname, 'data.txt');
 
 // Save text to file
-app.post('/', (req, res) => {
+app.post('/api/save', (req, res) => {
     try {
         const text = req.body.text;
         console.log('Received text:', text); // Log the incoming text
@@ -31,7 +31,7 @@ app.post('/', (req, res) => {
 });
 
 // Download the file
-app.get('/download', (req, res) => {
+app.get('/api/download', (req, res) => {
     res.download(FILE_PATH, 'data.txt');
 });
 
